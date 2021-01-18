@@ -1,15 +1,14 @@
 <mat-toolbar>
-    <span>Blog</span>
-    <span class="spacer"></span>
-    <div *ngIf="authService.auth.user | async as user; else showLogin">
-      <span>{{ user.displayName }} </span>
-      <button mat-icon-button (click)="authService.logout()">
-        <mat-icon>power_settings_new</mat-icon>
-      </button>
-    </div>
-    
-  </mat-toolbar>
+  <span><a mat-button [routerLink]="['/posts']">Blog</a></span>
+  <span class="spacer"></span>
+  <div *ngIf="authService.auth.user | async as user; else showLogin">
+    <span>{{ user.displayName }} </span>
+    <button mat-icon-button (click)="authService.logout()">
+      <mat-icon>power_settings_new</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
 
-  <ng-template #showLogin>
-    <button mat-button (click)="authService.login()">Log in</button>
-  </ng-template>
+<ng-template #showLogin>
+  <button mat-button (click)="authService.login()">Log in</button>
+</ng-template>

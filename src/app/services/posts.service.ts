@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Post } from '../models/post';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PostsService {
+  postCollection: AngularFirestoreCollection<Post>;
+
+  constructor(private afs: AngularFirestore) {
+    this.postCollection = afs.collection('posts', (ref) => {
+      return ref.orderBy('published', 'desc');
+    });
+  }
+
+  getPosts() {
+    return this.postCollection.snapshotChanges().pipe(
+      map((actions) =>
+        actions.map((a) => {
+          const data = a.payload.doc.data() as Post;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
+  }
+}
