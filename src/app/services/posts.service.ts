@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -29,5 +30,9 @@ export class PostsService {
         })
       )
     );
+  }
+
+  getPost(postId: string): Observable<Post> {
+    return this.afs.doc<Post>(`posts/${postId}`).valueChanges();
   }
 }

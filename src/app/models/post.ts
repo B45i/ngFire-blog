@@ -1,8 +1,9 @@
 export class Post {
   title: string;
   content: string;
-  auther: string;
+  author: string;
   autherId: string;
   image: string;
-  published: Date;
+  published: number;
+  id?: string;
 }

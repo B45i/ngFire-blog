@@ -1,1 +1,20 @@
-<p>post works!</p>
+<div class="m-auto w-75 h-100">
+  <h1>{{ post?.title }}</h1>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        [src]="'https://material.angular.io/assets/img/examples/shiba1.jpg'"
+      />
+      <mat-card-title>{{ post?.author }}</mat-card-title>
+      <mat-card-subtitle>{{
+        post.published * 1000 | date: "fullDate"
+      }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <p>
+    {{ post.content }}
+  </p>
+</div>
