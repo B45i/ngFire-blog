@@ -3,6 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from '../models/post';
 
@@ -18,7 +19,7 @@ export class PostsService {
     });
   }
 
-  getPosts() {
+  getPosts(): Observable<Post[]> {
     return this.postCollection.snapshotChanges().pipe(
       map((actions) =>
         actions.map((a) => {
