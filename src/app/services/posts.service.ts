@@ -3,6 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument,
+  DocumentReference,
 } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
@@ -45,15 +46,15 @@ export class PostsService {
     return this.afs.doc<Post>(`posts/${id}`);
   }
 
-  createPost(post: Post): void {
-    this.postCollection.add({
+  createPost(post: Post): Promise<DocumentReference<Post>> {
+    return this.postCollection.add({
       ...post,
       published: this.timestamp,
     });
   }
 
-  updatePost(id: string, post: Post): void {
-    this.getPost(id).update(post);
+  updatePost(id: string, post: Post): Promise<void> {
+    return this.getPost(id).update(post);
   }
 
   delete(id: string): void {
