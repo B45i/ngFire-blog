@@ -4,6 +4,7 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Post } from '../models/post';
@@ -13,6 +14,10 @@ import { Post } from '../models/post';
 })
 export class PostsService {
   postCollection: AngularFirestoreCollection<Post>;
+
+  get timestamp(): any {
+    return firebase.firestore.FieldValue.serverTimestamp();
+  }
 
   constructor(private afs: AngularFirestore) {
     this.postCollection = afs.collection('posts', (ref) => {
@@ -32,7 +37,26 @@ export class PostsService {
     );
   }
 
-  getPost(postId: string): Observable<Post> {
-    return this.afs.doc<Post>(`posts/${postId}`).valueChanges();
+  getPostData(id: string): Observable<Post> {
+    return this.afs.doc<Post>(`posts/${id}`).valueChanges();
+  }
+
+  getPost(id: string): AngularFirestoreDocument<Post> {
+    return this.afs.doc<Post>(`posts/${id}`);
+  }
+
+  createPost(post: Post): void {
+    this.postCollection.add({
+      ...post,
+      published: this.timestamp,
+    });
+  }
+
+  updatePost(id: string, post: Post): void {
+    this.getPost(id).update(post);
+  }
+
+  delete(id: string): void {
+    this.getPost(id).delete();
   }
 }

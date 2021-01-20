@@ -4,6 +4,6 @@ export class Post {
   author: string;
   autherId: string;
   image: string;
-  published: number;
+  published: any;
   id?: string;
 }
